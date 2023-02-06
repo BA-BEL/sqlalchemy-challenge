@@ -43,7 +43,8 @@ def home():
     return(f"Welcome to my API!<br/>"
             f"{'-'*30}<br/>"
             f"<br/>"
-            f"Available Routes: <br/>"
+            f"<h1>Available Routes:</h1> <br/>"
+            f"<hr>"
             f"/api/v1.0/precipitation<br/>"
             f"/api/v1.0/stations<br/>"
             f"/api/v1.0/tobs<br/>"
@@ -158,7 +159,7 @@ def min(start):
     #   Query
 
     # Columns to search
-    sel = [Measurement.date, Measurement.station, Measurement.tobs]
+    sel = [func.min(Measurement.tobs), func.max(Measurement.tobs),func.avg(Measurement.tobs)]
 
     # Store query for jsonification
     query = session.query(*sel)   \
@@ -169,7 +170,7 @@ def min(start):
     session.close()
 
     #   Store query response in to a dictionary for jsonification
-    response = [{"date":x[0], "station":x[1],"temperature":x[2]} for x in query]
+    response = [{"min":x[0], "max":x[1],"average":x[2]} for x in query]
 
     #   Return json response on api
     return(jsonify(response))
@@ -185,7 +186,7 @@ def minmax(start, end):
     #   Query
 
     # Columns to search
-    sel = [Measurement.date, Measurement.station, Measurement.tobs]
+    sel = [func.min(Measurement.tobs), func.max(Measurement.tobs),func.avg(Measurement.tobs)]
 
     # Store query for jsonification
     query = session.query(*sel)   \
@@ -197,7 +198,7 @@ def minmax(start, end):
     session.close()
 
     #   Store query response in to a dictionary for jsonification
-    response = [{"date":x[0], "station":x[1],"temperature":x[2]} for x in query]
+    response = [{"min":x[0], "max":x[1],"average":x[2]} for x in query]
 
     #   Return json response on api
     return(jsonify(response))
