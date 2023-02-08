@@ -125,7 +125,7 @@ def tobs():
                     .first()
 
     # Store date for previous year
-    date = dt.date(int(date[0:4]), int(date[5:7]), int(date[8:11])) - dt.timedelta(365)
+    date = dt.datetime.strptime(date, "%Y-%m-%d").date() - dt.timedelta(365)
 
     #   Query tobs for the most active station for the last year
 
